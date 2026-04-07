@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gasoil Tracker — Global Fuel Intelligence</title>
+<link rel="stylesheet" href="styles.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js" defer></script>
+
+</head>
+<body>
+
+<!-- ── ORBS ───────────────────────────────────── -->
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<!-- ── NAV ────────────────────────────────────── -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">⛽ Gasoil<b>Tracker</b></div>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#highlights">Highlights</a></li>
+    <li><a href="#prices">Prices</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="#trends">Trends</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+
+  <div class="nav-r">
+    <div class="cur-wrap">
+      <button class="cur-btn on" data-c="USD">USD</button>
+      <button class="cur-btn" data-c="EUR">EUR</button>
+      <button class="cur-btn" data-c="MAD">MAD</button>
+    </div>
+    <button class="theme-btn" id="themeBtn">☀️</button>
+    <div class="live"><span></span>Live</div>
+  </div>
+
+  <button class="burger" id="burger">☰</button>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero-l">
+    <div class="h-tag">⚡ Real-time fuel intelligence</div>
+
+    <h1 class="h-title">
+      Track Fuel Prices<br/>
+      <span class="grad">Around the World</span>
+    </h1>
+
+    <p class="h-desc">
+      Monitor gasoil prices across 40+ countries, updated weekly.<br/>
+      Spot trends, compare markets, stay informed.
+    </p>
+
+    <div class="h-actions">
+      <div class="sbox">
+        <span class="sico">🔍</span>
+        <input id="heroSearch" placeholder="Search a country…" autocomplete="off"/>
+      </div>
+      <a href="#prices" class="btn-p">Explore Prices ↓</a>
+    </div>
+
+    <div class="h-stats">
+      <div class="hs">
+        <span class="hs-v" id="avgEl">$1.38</span>
+        <span class="hs-l">Global avg / L</span>
+      </div>
+      <div class="hs-d"></div>
+      <div class="hs">
+        <span class="hs-v up">+2.4%</span>
+        <span class="hs-l">30-day change</span>
+      </div>
+      <div class="hs-d"></div>
+      <div class="hs">
+        <span class="hs-v">40+</span>
+        <span class="hs-l">Countries tracked</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-r">
+    <div class="ring r1"></div>
+    <div class="ring r2"></div>
+    <div class="ring r3"></div>
+    <div class="gcore">⛽</div>
+    <div class="fb tl">🇺🇸 $1.04</div>
+    <div class="fb tr">🇩🇪 $1.79</div>
+    <div class="fb bl">🇲🇦 $1.24</div>
+    <div class="fb br">🇯🇵 $1.35</div>
+  </div>
+</section>
+
+<!-- ── HIGHLIGHTS ──────────────────────────────── -->
+<section class="sec" id="highlights">
+  <div class="s-head">
+    <div>
+      <div class="s-tag">Quick Look</div>
+      <h2 class="s-title">Today's Highlights</h2>
+    </div>
+  </div>
+  <div class="hl-grid">
+    <div class="hl-card ch">
+      <div class="hl-lbl">🏆 Top 3 Cheapest</div>
+      <div id="hlCheap"></div>
+    </div>
+    <div class="hl-card pr">
+      <div class="hl-lbl">💸 Top 3 Priciest</div>
+      <div id="hlPricey"></div>
+    </div>
+    <div class="hl-card ri">
+      <div class="hl-lbl">📈 Biggest Rise</div>
+      <div id="hlRising"></div>
+    </div>
+    <div class="hl-card fa">
+      <div class="hl-lbl">📉 Biggest Drop</div>
+      <div id="hlFalling"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICES ──────────────────────────────────── -->
+<section class="sec alt" id="prices">
+  <div class="s-head">
+    <div>
+      <div class="s-tag">Global Markets</div>
+      <h2 class="s-title">Current Prices</h2>
+    </div>
+    <div class="ctrls">
+      <div class="sbox sm">
+        <span class="sico">🔍</span>
+        <input id="cardSearch" placeholder="Filter countries…" autocomplete="off"/>
+      </div>
+      <select class="sel" id="sortSel">
+        <option value="def">Default</option>
+        <option value="asc">Cheapest first</option>
+        <option value="desc">Priciest first</option>
+        <option value="az">A → Z</option>
+        <option value="rise">Biggest rise</option>
+        <option value="fav">⭐ Favourites first</option>
+      </select>
+      <button class="btn-o" id="exportBtn">⬇ Export CSV</button>
+    </div>
+  </div>
+  <div class="cards-grid" id="cardsGrid"></div>
+  <p class="empty-msg" id="emptyMsg" style="display:none">No countries match your search.</p>
+</section>
+
+<!-- ── COMPARE ─────────────────────────────────── -->
+<section class="sec" id="compare">
+  <div class="s-head">
+    <div>
+      <div class="s-tag">Side by Side</div>
+      <h2 class="s-title">Compare Countries</h2>
+    </div>
+    <p class="s-hint">Select up to 3 countries to overlay their 7-week trend.</p>
+  </div>
+  <div class="cmp-sels" id="cmpSels">
+    <select class="sel" data-i="0"><option value="">— Country 1 —</option></select>
+    <select class="sel" data-i="1"><option value="">— Country 2 —</option></select>
+    <select class="sel" data-i="2"><option value="">— Country 3 —</option></select>
+  </div>
+  <div class="chart-box" style="margin-top:1.5rem">
+    <canvas id="cmpChart"></canvas>
+  </div>
+</section>
+
+<!-- ── TREND CHART ─────────────────────────────── -->
+<section class="sec alt" id="trends">
+  <div class="s-head">
+    <div>
+      <div class="s-tag">Historical Data</div>
+      <h2 class="s-title">Price Evolution</h2>
+    </div>
+    <select class="sel" id="trendSel"></select>
+  </div>
+  <div class="chart-box">
+    <canvas id="trendChart"></canvas>
+  </div>
+</section>
+
+<!-- ── NEWS ────────────────────────────────────── -->
+<section class="sec" id="news">
+  <div class="s-head">
+    <div>
+      <div class="s-tag">Latest</div>
+      <h2 class="s-title">Fuel News</h2>
+    </div>
+  </div>
+  <div class="news-grid">
+    <article class="n-card">
+      <div class="n-tag">Markets</div>
+      <h3 class="n-title">Oil prices ease as OPEC+ signals potential output increase</h3>
+      <p class="n-exc">Global crude benchmarks slipped 1.2% after sources indicated the group may raise production quotas in the next quarter, easing supply concerns.</p>
+      <div class="n-meta"><span>Reuters</span><span>2 days ago</span></div>
+    </article>
+    <article class="n-card">
+      <div class="n-tag">Europe</div>
+      <h3 class="n-title">France and Germany see diesel prices fall for third consecutive week</h3>
+      <p class="n-exc">Retail gasoil prices in Western Europe have declined steadily amid lower refinery margins and a weaker demand outlook heading into summer.</p>
+      <div class="n-meta"><span>Bloomberg</span><span>3 days ago</span></div>
+    </article>
+    <article class="n-card">
+      <div class="n-tag">Africa</div>
+      <h3 class="n-title">Nigeria fuel subsidies removed — prices surge over 5%</h3>
+      <p class="n-exc">The government's decision to end decades-old fuel subsidies has pushed pump prices to record highs for Nigerian consumers and transport operators.</p>
+      <div class="n-meta"><span>Al Jazeera</span><span>5 days ago</span></div>
+    </article>
+    <article class="n-card">
+      <div class="n-tag">Asia</div>
+      <h3 class="n-title">Japan raises fuel levies to fund green energy transition</h3>
+      <p class="n-exc">New legislation will gradually increase carbon levies on diesel and gasoline, pushing Japan's pump prices higher through 2027 as part of its net-zero roadmap.</p>
+      <div class="n-meta"><span>Nikkei</span><span>1 week ago</span></div>
+    </article>
+    <article class="n-card">
+      <div class="n-tag">Middle East</div>
+      <h3 class="n-title">Saudi Arabia keeps domestic fuel prices stable despite gains</h3>
+      <p class="n-exc">Despite strong export revenues, the Kingdom maintained its heavily subsidised domestic price structure, keeping petrol well below global averages.</p>
+      <div class="n-meta"><span>Financial Times</span><span>1 week ago</span></div>
+    </article>
+    <article class="n-card">
+      <div class="n-tag">Americas</div>
+      <h3 class="n-title">US diesel inventories at lowest level since 2008</h3>
+      <p class="n-exc">Distillate stocks fell for the sixth straight week, raising concerns about supply tightness heading into the peak summer driving and agricultural season.</p>
+      <div class="n-meta"><span>Wall Street Journal</span><span>2 weeks ago</span></div>
+    </article>
+  </div>
+</section>
+
+<!-- ── ABOUT ────────────────────────────────────── -->
+<section class="sec" id="about" style="border-top:1px solid var(--border)">
+  <div class="s-head" style="margin-bottom:0">
+    <div>
+      <div class="s-tag">Methodology</div>
+      <h2 class="s-title">About Gasoil Tracker</h2>
+    </div>
+  </div>
+  <div class="about-inner" style="margin-top:2rem">
+    <p>Gasoil Tracker aggregates retail diesel and gasoil pump prices from government energy agencies, national statistics offices, and verified industry data providers across 40+ countries. All prices are converted to USD per litre using weekly average exchange rates and refreshed every Monday.</p>
+    <p>Historical trend data covers a 7-week rolling window. The percentage change shown on each card reflects the variation from 6 weeks ago to the current week. This tool is intended for informational and market awareness purposes only — not for commercial trading or investment decisions.</p>
+    <div class="a-chips">
+      <div class="a-chip">📡 40+ data sources</div>
+      <div class="a-chip">🔄 Weekly refresh</div>
+      <div class="a-chip">💱 Live FX conversion</div>
+      <div class="a-chip">🏛️ Official data only</div>
+      <div class="a-chip">🔒 No account needed</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ───────────────────────────────────── -->
+<footer class="footer">
+  <div class="ft-top">
+    <div class="ft-brand">
+      <div class="ft-logo">⛽ Gasoil<b>Tracker</b></div>
+      <p>Real-time fuel price intelligence for every market, every week.</p>
+    </div>
+    <div class="ft-cols">
+      <div class="ft-col">
+        <span>Navigate</span>
+        <a href="#hero">Home</a>
+        <a href="#highlights">Highlights</a>
+        <a href="#prices">Prices</a>
+        <a href="#compare">Compare</a>
+      </div>
+      <div class="ft-col">
+        <span>More</span>
+        <a href="#trends">Trends</a>
+        <a href="#news">News</a>
+        <a href="#about">About</a>
+      </div>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span>© 2026 GasoilTracker · Data refreshed weekly · Prices in USD/L</span>
+    <span id="updatedEl"></span>
+  </div>
+</footer>
+</body>
+</html>
